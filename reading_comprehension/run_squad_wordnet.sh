@@ -19,16 +19,15 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-if [ ! -d log ]; then
-mkdir log
-else
-rm -r log/*
+log_dir='log_ktnet_large'
+output_dir='output_ktnet_large'
+
+if [ ! -d $log_dir ]; then
+mkdir $log_dir
 fi
 
-if [ ! -d output ]; then
-mkdir output
-else
-rm -r output/*
+if [ ! -d $output_dir ]; then
+mkdir $output_dir
 fi
 
 export FLAGS_cudnn_deterministic=true

@@ -228,7 +228,7 @@ def find_all_best_thresh(main_eval, preds, exact_raw, f1_raw, na_probs, qid_to_h
   main_eval['best_f1'] = best_f1
   main_eval['best_f1_thresh'] = f1_thresh
 
-def evaluate(dataset, predictions, na_probs):
+def evaluate(dataset, preds, na_probs):
   qid_to_has_ans = make_qid_to_has_ans(dataset)  # maps qid to True/False
   has_ans_qids = [k for k, v in qid_to_has_ans.items() if v]
   no_ans_qids = [k for k, v in qid_to_has_ans.items() if not v]

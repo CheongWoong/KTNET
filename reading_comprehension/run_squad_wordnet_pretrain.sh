@@ -19,16 +19,15 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-if [ ! -d sqd_wn_first_stage_log ]; then
-mkdir sqd_wn_first_stage_log
-else
-rm -rf sqd_wn_first_stage_log/*
+log_dir='log_ktnet_large'
+output_dir='output_ktnet_large'
+
+if [ ! -d $log_dir ]; then
+mkdir $log_dir
 fi
 
-if [ ! -d sqd_wn_first_stage_output ]; then
-mkdir sqd_wn_first_stage_output
-else
-rm -rf sqd_wn_first_stage_output/*
+if [ ! -d $output_dir ]; then
+mkdir $output_dir
 fi
 
 export FLAGS_cudnn_deterministic=true
