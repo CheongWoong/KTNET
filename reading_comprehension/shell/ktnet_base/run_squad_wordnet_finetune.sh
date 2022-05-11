@@ -19,8 +19,8 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-model_name=ktnet_large
-BERT_DIR=uncased_L-24_H-1024_A-16
+model_name=ktnet_base
+BERT_DIR=uncased_L-12_H-768_A-12
 
 log_dir=log_$model_name
 output_dir=output_$model_name

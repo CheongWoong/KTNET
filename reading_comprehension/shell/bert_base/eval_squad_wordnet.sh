@@ -19,8 +19,8 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-model_name=ktnet_large
-BERT_DIR=uncased_L-24_H-1024_A-16
+model_name=bert_base
+BERT_DIR=uncased_L-12_H-768_A-12
 
 log_dir=log_$model_name
 output_dir=output_$model_name
@@ -58,7 +58,6 @@ nohup python3 src/run_squad.py \
   --max_seq_len 384 \
   --doc_stride 128 \
   --concept_embedding_path $CPT_EMBEDDING_PATH \
-  --use_wordnet true \
   --random_seed 45 \
   --version_2_with_negative true \
   --checkpoints $output_dir/ 1>$PWD_DIR/$log_dir/eval.log 2>&1 &
