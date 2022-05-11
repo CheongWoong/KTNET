@@ -233,10 +233,8 @@ def evaluate(dataset, preds, na_probs):
   has_ans_qids = [k for k, v in qid_to_has_ans.items() if v]
   no_ans_qids = [k for k, v in qid_to_has_ans.items() if not v]
   exact_raw, f1_raw = get_raw_scores(dataset, preds)
-  exact_thresh = apply_no_ans_threshold(exact_raw, na_probs, qid_to_has_ans,
-                                        OPTS.na_prob_thresh)
-  f1_thresh = apply_no_ans_threshold(f1_raw, na_probs, qid_to_has_ans,
-                                     OPTS.na_prob_thresh)
+  exact_thresh = apply_no_ans_threshold(exact_raw, na_probs, qid_to_has_ans, 0.0)
+  f1_thresh = apply_no_ans_threshold(f1_raw, na_probs, qid_to_has_ans, 0.0)
   out_eval = make_eval_dict(exact_thresh, f1_thresh)
   if has_ans_qids:
     has_ans_eval = make_eval_dict(exact_thresh, f1_thresh, qid_list=has_ans_qids)
@@ -244,13 +242,7 @@ def evaluate(dataset, preds, na_probs):
   if no_ans_qids:
     no_ans_eval = make_eval_dict(exact_thresh, f1_thresh, qid_list=no_ans_qids)
     merge_eval(out_eval, no_ans_eval, 'NoAns')
-  if OPTS.na_prob_file:
-    find_all_best_thresh(out_eval, preds, exact_raw, f1_raw, na_probs, qid_to_has_ans)
-  if OPTS.na_prob_file and OPTS.out_image_dir:
-    run_precision_recall_analysis(out_eval, exact_raw, f1_raw, na_probs, 
-                                  qid_to_has_ans, OPTS.out_image_dir)
-    histogram_na_prob(na_probs, has_ans_qids, OPTS.out_image_dir, 'hasAns')
-    histogram_na_prob(na_probs, no_ans_qids, OPTS.out_image_dir, 'noAns')
+  find_all_best_thresh(out_eval, preds, exact_raw, f1_raw, na_probs, qid_to_has_ans)
 
   return out_eval
 

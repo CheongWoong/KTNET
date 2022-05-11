@@ -19,8 +19,11 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-log_dir='log_ktnet_large'
-output_dir='output_ktnet_large'
+model_name=ktnet_large
+BERT_DIR=uncased_L-24_H-1024_A-16
+
+log_dir=log_one_stage_$model_name
+output_dir=output_one_stage_$model_name
 
 if [ ! -d $log_dir ]; then
 mkdir $log_dir
@@ -35,8 +38,8 @@ export FLAGS_cpu_deterministic=true
 
 PWD_DIR=`pwd`
 DATA=../data/
-BERT_DIR=uncased_L-24_H-1024_A-16
 CPT_EMBEDDING_PATH=../retrieve_concepts/KB_embeddings/wn_concept2vec.txt
+
 CKPT_DIR=$1
 
 nohup python3 src/run_squad.py \
@@ -58,4 +61,4 @@ nohup python3 src/run_squad.py \
   --use_wordnet true \
   --random_seed 45 \
   --version_2_with_negative true \
-  --checkpoints output/ 1>$PWD_DIR/log/train.log 2>&1 &
+  --checkpoints $output_dir/ 1>$PWD_DIR/$log_dir/eval.log 2>&1 &
