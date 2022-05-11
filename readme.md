@@ -130,7 +130,7 @@ cd reading_comprehension && sh ./run_squad_wordnet_pretrain.sh
 ```
 and then run the command after the first stage has been finished
 ```
-sh ./run_squad_wordnet_finetune.sh
+sh ./run_squad_wordnet_finetune.sh ckpt_dir_path
 ```
 
 The finally created `output/` and `log/` directories have the same folder structure with directly fine-tuning.
