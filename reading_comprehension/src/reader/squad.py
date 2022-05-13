@@ -202,6 +202,8 @@ class Examples_To_Features_Converter(object):
         # 2. mapping from concept name to concept id (currently only support one KB)
         self.concept2id = self.concept_settings['concept2id']
 
+        self.max_concept_length = 50
+
         # 3. retrieved related wordnet concepts (if use_wordnet)
         if concept_settings['use_wordnet']:
             assert not self.concept_settings['use_nell']
@@ -260,6 +262,7 @@ class Examples_To_Features_Converter(object):
             query_tokens = tokenizer.tokenize(example.question_text)
             # check online subword tokenization result is the same as offline result
             assert query_tokens == tokenization_info['query_subtokens']
+            query_concepts = [[] for _ in range(len(query_tokens))]
             if self.concept_settings['use_wordnet']:
                 query_concepts = self._lookup_wordnet_concept_ids(query_tokens, tokenization_info['query_sub_to_ori_index'], 
                                                             tokenization_info['query_tokens'], 
@@ -283,6 +286,7 @@ class Examples_To_Features_Converter(object):
                     tok_to_orig_index.append(i)
                     all_doc_tokens.append(sub_token)
             assert all_doc_tokens == tokenization_info['document_subtokens']
+            doc_concepts = []
             if self.concept_settings['use_wordnet']:
                 doc_concepts = self._lookup_wordnet_concept_ids(all_doc_tokens, tokenization_info['document_sub_to_ori_index'], 
                                                             tokenization_info['document_tokens'],
@@ -354,7 +358,10 @@ class Examples_To_Features_Converter(object):
                     token_is_max_context[len(tokens)] = is_max_context
                     tokens.append(all_doc_tokens[split_token_index])
                     segment_ids.append(1)
-                    concept_ids.append(doc_concepts[split_token_index])
+                    try:
+                        concept_ids.append(doc_concepts[split_token_index])
+                    except:
+                        concept_ids.append([])
                 tokens.append("[SEP]")
                 segment_ids.append(1)
                 concept_ids.append([])

@@ -566,7 +566,7 @@ def train(args):
                         val_performance = predict(exe, test_prog, test_pyreader, [
                             unique_ids.name, start_logits.name, end_logits.name, num_seqs.name
                         ], processor, eval_concept_settings, 'validate_result_step_{}.json'.format(steps))
-                        logger.info("Validation performance after step {}:\n* Exact_match: {}\n* F1: {}".format(steps, val_performance['exact_match'], val_performance['f1']))
+                        logger.info("Validation performance after step {}:\n* Exact_match: {}\n* F1: {}".format(steps, val_performance['exact'], val_performance['f1']))
                                         
             except fluid.core.EOFException:
                 save_path = os.path.join(args.checkpoints,
@@ -588,7 +588,7 @@ def train(args):
                 unique_ids.name, start_logits.name, end_logits.name, num_seqs.name
             ], processor, eval_concept_settings)            
 
-        logger.info("Eval performance:\n* Exact_match: {}\n* F1: {}".format(eval_performance['exact_match'], eval_performance['f1']))
+        logger.info("Eval performance:\n* Exact_match: {}\n* F1: {}".format(eval_performance['exact'], eval_performance['f1']))
 
 
 if __name__ == '__main__':
