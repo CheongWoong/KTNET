@@ -316,7 +316,8 @@ def main():
 
         logger.info('Finished {} tokenization for train set.'.format('uncased' if do_lower_case else 'cased'))
 
-        eval_examples = read_squad_examples(input_file=args.predict_file, is_training=False, version_2_with_negative=args.version_2_with_negative)
+        #eval_examples = read_squad_examples(input_file=args.predict_file, is_training=False, version_2_with_negative=args.version_2_with_negative)
+        eval_examples = read_squad_examples(input_file=args.predict_file, is_training=False, version_2_with_negative=True)
         eval_tokenization_result = tokenization_on_examples(
             examples=eval_examples,
             tokenizer=tokenizer) 

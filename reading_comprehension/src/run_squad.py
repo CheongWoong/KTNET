@@ -107,6 +107,8 @@ run_type_g.add_arg("freeze",                       bool,  False,   "freeze bert 
 
 mem_settings_g = ArgumentGroup(parser, "memory", "memory settings.")
 mem_settings_g.add_arg('concept_embedding_path',  str,    None,   'path of pretrained concept file')
+mem_settings_g.add_arg('random_replacement',             bool,   False,  '')
+mem_settings_g.add_arg('synonym_replacement',             bool,   False,  '')
 mem_settings_g.add_arg('use_wordnet',             bool,   False,  'whether to use wordnet memory')
 mem_settings_g.add_arg('retrieved_synset_path',   str,    '../retrieve_concepts/retrieve_wordnet/output_squad/retrived_synsets.data',   'path of retrieved synsets')
 mem_settings_g.add_arg('use_nell',                bool,   False,  'whether to use nell memory')
@@ -114,6 +116,19 @@ mem_settings_g.add_arg('train_retrieved_nell_concept_path',   str,    '../retrie
 mem_settings_g.add_arg('dev_retrieved_nell_concept_path',     str,    '../retrieve_concepts/retrieve_nell/output_squad/dev.retrieved_nell_concepts.data',   'path of retrieved concepts for devset')
 
 args = parser.parse_args()
+
+tokenization_path = '../retrieve_concepts/tokenization_squad/tokens/train.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+
+if args.random_replacement:
+    args.retrieved_synset_path = '../retrieve_concepts/retrieve_wordnet/output_squad_random-replacement/retrived_synsets.data'
+    train_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_random-replacement/train.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+    dev_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_random-replacement/dev.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+
+if args.synonym_replacement:
+    args.retrieved_synset_path = '../retrieve_concepts/retrieve_wordnet/output_squad_synonym-replacement/retrived_synsets.data'
+    train_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_synonym-replacement/train.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+    dev_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_synonym-replacement/dev.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+
 # yapf: enable.
 
 def create_model(pyreader_name, bert_config, max_concept_length, concept_embedding_mat, is_training=False, freeze=False):
@@ -341,7 +356,7 @@ def train(args):
 
     if args.do_train:
         train_concept_settings = {
-            'tokenization_path': '../retrieve_concepts/tokenization_squad/tokens/train.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased'),
+            'tokenization_path': train_tokenization_path,
             'concept2id': concept2id,
             'use_wordnet': args.use_wordnet,
             'retrieved_synset_path': args.retrieved_synset_path,
@@ -415,7 +430,7 @@ def train(args):
 
     if args.do_predict or args.do_val:
         eval_concept_settings = {
-            'tokenization_path': '../retrieve_concepts/tokenization_squad/tokens/dev.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased'),
+            'tokenization_path': dev_tokenization_path,
             'concept2id': concept2id,
             'use_wordnet': args.use_wordnet,
             'retrieved_synset_path': args.retrieved_synset_path,
