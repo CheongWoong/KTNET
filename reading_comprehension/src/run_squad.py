@@ -107,6 +107,7 @@ run_type_g.add_arg("freeze",                       bool,  False,   "freeze bert 
 
 mem_settings_g = ArgumentGroup(parser, "memory", "memory settings.")
 mem_settings_g.add_arg('concept_embedding_path',  str,    None,   'path of pretrained concept file')
+mem_settings_g.add_arg('model_name',  str,    None,   'model name')
 mem_settings_g.add_arg('random_replacement',             bool,   False,  '')
 mem_settings_g.add_arg('synonym_replacement',             bool,   False,  '')
 mem_settings_g.add_arg('use_wordnet',             bool,   False,  'whether to use wordnet memory')
@@ -125,9 +126,9 @@ if args.random_replacement:
     dev_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_random-replacement/dev.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
 
 if args.synonym_replacement:
-    args.retrieved_synset_path = '../retrieve_concepts/retrieve_wordnet/output_squad_synonym-replacement/retrived_synsets.data'
-    train_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_synonym-replacement/train.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
-    dev_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_synonym-replacement/dev.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+    args.retrieved_synset_path = '../retrieve_concepts/retrieve_wordnet/output_squad_synonym-replacement/'+args.model_name+'/retrived_synsets.data'
+    train_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_synonym-replacement/'+args.model_name+'/train.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
+    dev_tokenization_path = '../retrieve_concepts/tokenization_squad/tokens_synonym-replacement/'+args.model_name+'/dev.tokenization.{}.data'.format('uncased' if args.do_lower_case else 'cased')
 
 # yapf: enable.
 
