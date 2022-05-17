@@ -181,11 +181,14 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,linux
 
+nohup.out
 data/
 KB_embeddings/
 sqd_wn_first_stage_output*/
 output*/
 tokens/
+tokens_random-replacement/
+tokens_synonym-replacement/
 uncased_L-12_H-768_A-12/
 uncased_L-24_H-1024_A-16/
 stanford-corenlp-4.4.0/
